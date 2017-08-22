@@ -1,0 +1,27 @@
+{
+  "name": "js-list",
+  "version": "1.0.0",
+  "description": "Lists for JS",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex-deas/js-list.git"
+  },
+  "keywords": [
+    "List",
+    "FantasyLand"
+  ],
+  "author": "Alex Deas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alex-deas/js-list/issues"
+  },
+  "homepage": "https://github.com/alex-deas/js-list#readme",
+  "devDependencies": {
+    "jasmine": "^2.7.0"
+  },
+  "dependencies": {}
+}
