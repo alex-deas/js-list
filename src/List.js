@@ -1,3 +1,5 @@
+var snd = function (_, x) { return x };
+
 var EmptyList = {
   toString: function() { return '' },
 
@@ -14,10 +16,9 @@ var EmptyList = {
   map: function() { return this },
 
   // Foldable
-  foldr: function(_, x) {
-    return x
-  },
-  reduce: function(_, x) { return x },
+  foldr: snd,
+  foldl: snd,
+  reduce: snd,
 };
 
 function Cons(a, b) {
@@ -63,7 +64,9 @@ function Cons(a, b) {
     },
 
     // Foldable
-    reduce: function(f, x) { return this.tail.reduce(f, f(this.head, x)) },
+    foldr: function(f, x) { return this.tail.foldr(f, f(x, this.head)) },
+    foldl: function(f, x) { return f(this.tail.foldl(f, x), this.head) },
+    reduce: function(f, x) { return this.tail.reduce(f, f(x, this.head)) },
   };
 };
 

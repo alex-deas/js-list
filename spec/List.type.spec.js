@@ -45,8 +45,8 @@ describe('List', function() {
   });
 
   it('should be a Foldable', function() {
-    var x = List("foo", "bar", "baz", "bang");
-    expect(x.reduce((acc, x) => acc.concat([x]), [])).toEqual("bangbazbarfoo");
+    var xs = List("foo", "bar", "baz", "bang");
+    expect(xs.reduce((acc, x) => acc.concat([x]), [])).toEqual(["foo", "bar", "baz", "bang"]);
   })
 });
 
