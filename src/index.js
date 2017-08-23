@@ -1,2 +1,2 @@
-module.exports.List = require('./List');
+module.exports = require('./List');
 
