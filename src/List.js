@@ -1,28 +1,30 @@
+var fl = require('fantasy-land');
+
 var snd = function (_, x) { return x };
 
 var EmptyList = {
   toString: function() { return '' },
 
   // Identity
-  id: function() { return this },
+  [fl.id]: function() { return this },
 
   // Setoid
-  equals: function(x) { return x === this },
+  [fl.equals]: function(x) { return x === this },
 
   // Semigroup
-  concat: function(x) { List(x) },
+  [fl.concat]: function(x) { List(x) },
 
   // Functor
-  map: function() { return this },
+  [fl.map]: function() { return this },
 
   // Foldable
   foldr: snd,
   foldl: snd,
-  reduce: snd,
+  [fl.reduce]: snd,
 };
 
 function Cons(a, b) {
-  if (!a && !b) {
+  if (!a) {
     return EmptyList;
   } else return {
     head: a,
@@ -31,42 +33,42 @@ function Cons(a, b) {
       return (
         'List(' +
         this.head.toString() +
-        (this.tail.equals(EmptyList) ? '' : ', ' ) +
+        (this.tail[fl.equals](EmptyList) ? '' : ', ' ) +
         this.tail.toString() +
         ')'
       );
     },
 
     // Identity
-    id: function() { return this; },
+    [fl.id]: function() { return this; },
 
     // Setoid
-    equals: function(b) {
-      return this.head === b.head && this.tail.equals(b.tail);
+    [fl.equals]: function(b) {
+      return this.head === b.head && this.tail[fl.equals](b.tail);
     },
 
     // Semigroup
-    concat: function(x) {
-      if (this.tail.equals(EmptyList)) {
+    [fl.concat]: function(x) {
+      if (this.tail[fl.equals](EmptyList)) {
         return Cons(this.head, x)
       } else {
-        return Cons(this.head, this.tail.concat(x));
+        return Cons(this.head, this.tail[fl.concat](x));
       }
     },
     
     // Functor
-    map: function(f) {
-      if (this.tail.equals(EmptyList)) {
+    [fl.map]: function(f) {
+      if (this.tail[fl.equals](EmptyList)) {
         return Cons(f(this.head), EmptyList);
       } else {
-        return Cons(f(this.head), this.tail.map(f));
+        return Cons(f(this.head), this.tail[fl.map](f));
       }
     },
 
     // Foldable
     foldr: function(f, x) { return this.tail.foldr(f, f(x, this.head)) },
     foldl: function(f, x) { return f(this.tail.foldl(f, x), this.head) },
-    reduce: function(f, x) { return this.tail.reduce(f, f(x, this.head)) },
+    [fl.reduce]: function(f, x) { return this.tail[fl.reduce](f, f(x, this.head))},
   };
 };
 
@@ -83,7 +85,7 @@ function List(...args) {
   if (args.length === 0) {
     return Cons();
   } else if (args.length === 1) {
-    return Cons(args[0], EmptyList);
+    return Cons(args[0]);
   } else {
     var head = args[0];
     var tail = args.slice(1, args.length);
